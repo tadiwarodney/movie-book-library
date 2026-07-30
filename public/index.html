@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie/Book Library</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* You can add styling later */
+    </style>
+</head>
+<body>
+    <header>MOVIE/BOOK LIBRARY</header>
+
+    <h2>MOVIE/BOOK LIBRARY</h2>
+    <form id="libraryForm" action="/add" method="POST">
+
+      <!-- Add Section -->
+      <div class="form-section">
+        <h3>Add a Movie/Book</h3>
+
+        <div class="add-container">
+          <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" placeholder="Enter your title here...." required>
+          </div>
+
+          <div class="form-group">
+            <label for="genre">Genre:</label>
+            <select id="genre" name="genre">
+              <option value="Romance">Romance</option>
+              <option value="Action">Action</option>
+              <option value="Sci-Fi">Sci-Fi</option>
+              <option value="Fantasy">Fantasy</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="rating">Rating:</label>
+            <select id="rating" name="rating">
+              <option value="5">5</option>
+              <option value="4">4</option>
+              <option value="3">3</option>
+              <option value="2">2</option>
+              <option value="1">1</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="itemType">Type:</label>
+            <select id="itemType" name="itemType">
+              <option value="Movie">Movie</option>
+              <option value="Book">Book</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit">ADD</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Section -->
+      <div class="form-section">
+        <h3>Search & Filter</h3>
+
+        <div class="search-container">
+          <div class="form-group">
+            <input type="text" placeholder="Search by title..." id="searchTitle">
+          </div>
+
+          <div class="form-group">
+            <label for="searchGenre">Genre:</label>
+            <select id="searchGenre" name="search-genre">
+              <option value="All">All</option>
+              <option value="Romance">Romance</option>
+              <option value="Action">Action</option>
+              <option value="Sci-Fi">Sci-Fi</option>
+              <option value="Fantasy">Fantasy</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="searchRating">Rating:</label>
+            <select id="searchRating" name="search-rating">
+              <option value="All">All</option>
+              <option value="5">5</option>
+              <option value="4">4</option>
+              <option value="3">3</option>
+              <option value="2">2</option>
+              <option value="1">1</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="searchType">Type:</label>
+            <select id="searchType" name="search-type">
+              <option value="All">All</option>
+              <option value="Movie">Movie</option>
+              <option value="Book">Book</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="searchBtn">Search</button>
+            <button type="button" id="resetBtn">Reset Filters</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Library Section -->
+      <div class="form-section">
+        <h3>Library</h3>
+        <table border="1">
+          <tr>
+            <th>Title</th>
+            <th>Genre</th>
+            <th>Rating</th>
+            <th>Type</th>
+          </tr>
+          <!-- Rows are now loaded dynamically from the server -->
+        </table>
+
+        <div style="margin-top: 15px; text-align: center;">
+          <button type="button" id="prevBtn">« Previous</button>
+          <span id="pageInfo">Page 1 of 1</span>
+          <button type="button" id="nextBtn">Next »</button>
+        </div>
+      </div>
+
+    </form>
+
+    <script>
+      const form = document.getElementById("libraryForm");
+      const table = document.querySelector("table");
+
+      const rowsPerPage = 5; // rows per page — adjust as needed
+      let currentPage = 1;
+
+      // Builds query params from current search fields + page
+      function buildParams(page) {
+        return new URLSearchParams({
+          page,
+          limit: rowsPerPage,
+          title: document.getElementById("searchTitle").value,
+          genre: document.getElementById("searchGenre").value,
+          rating: document.getElementById("searchRating").value,
+          item_type: document.getElementById("searchType").value
+        });
+      }
+
+      // Fetches a page of results from the server and renders the table
+      async function loadPage(page = 1) {
+        try {
+          const params = buildParams(page);
+          const res = await fetch(`/view?${params.toString()}`);
+          const result = await res.json();
+
+          if (result.error) {
+            console.error(result.error);
+            return;
+          }
+
+          const { data, page: currentP, totalPages } = result;
+          currentPage = currentP;
+
+          // Remove all rows except the header row
+          const rows = table.querySelectorAll("tr:not(:first-child)");
+          rows.forEach(r => r.remove());
+
+          // Insert fresh rows from server data
+          data.forEach(item => {
+            const newRow = table.insertRow();
+            newRow.insertCell(0).textContent = item.title;
+            newRow.insertCell(1).textContent = item.genre;
+            newRow.insertCell(2).textContent = item.rating;
+            newRow.insertCell(3).textContent = item.item_type;
+          });
+
+          document.getElementById("pageInfo").textContent = `Page ${currentPage} of ${totalPages}`;
+          document.getElementById("prevBtn").disabled = currentPage <= 1;
+          document.getElementById("nextBtn").disabled = currentPage >= totalPages;
+        } catch (err) {
+          console.error("Failed to load library data:", err);
+        }
+      }
+
+      // Add a new movie/book via fetch (no page reload)
+      form.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const title = document.getElementById("title").value;
+        const genre = document.getElementById("genre").value;
+        const rating = document.getElementById("rating").value;
+        const itemType = document.getElementById("itemType").value;
+
+        try {
+          const res = await fetch("/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ title, genre, rating, item_type: itemType })
+          });
+
+          if (!res.ok) {
+            alert("Error adding data");
+            return;
+          }
+          alert=("ADDED");
+          form.reset();
+          loadPage(1); // refresh table to show the new entry
+        } catch (err) {
+          console.error("Failed to add item:", err);
+          alert("Error adding data");
+        }
+      });
+
+      document.getElementById("searchBtn").addEventListener("click", function() {
+        loadPage(1);
+      });
+
+      document.getElementById("resetBtn").addEventListener("click", function() {
+        document.getElementById("searchTitle").value = "";
+        document.getElementById("searchGenre").value = "All";
+        document.getElementById("searchRating").value = "All";
+        document.getElementById("searchType").value = "All";
+        loadPage(1);
+      });
+
+      document.getElementById("prevBtn").addEventListener("click", function() {
+        loadPage(currentPage - 1);
+      });
+
+      document.getElementById("nextBtn").addEventListener("click", function() {
+        loadPage(currentPage + 1);
+      });
+
+      // Load the first page on startup
+      loadPage(1);
+    </script>
+</body>
+</html>

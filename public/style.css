@@ -1,0 +1,109 @@
+/* General page layout */
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f9f9f9;
+}
+
+/* Header */
+header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Section titles */
+h2 {
+  margin-top: 20px;
+  color: #333;
+}
+
+/* Form labels and inputs */
+form label {
+  margin-right: 8px;       /* space between label and input */
+  font-weight: bold;       /* make labels bold */
+}
+
+form input, form select, form button {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;      /* rounded corners */
+}
+
+/* Buttons */
+button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 8px;      /* rounded button */
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #eee;
+}
+
+/* Pagination */
+.pagination {
+  margin-top: 15px;
+  text-align: center;
+}
+
+/* Add section */
+.add-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;   /* centers horizontally */
+  align-items: flex-end;
+  border: 1px solid #918c8c;
+  border-radius: 9px;
+  padding: 30px;
+  background-color: #fff;    /* optional: white background */
+}
+
+/* Search section */
+.search-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;   /* centers horizontally */
+  align-items: center;
+  border: 1px solid #918c8c;
+  border-radius: 9px;
+  padding: 30px;
+  background-color: #fff;    /* optional: white background */
+}
+
+/* Form groups */
+.form-group {
+  display: flex;              /* label + input/select in one row */
+  align-items: center;
+  gap: 10px;                  /* space between label and input */
+}
+
+/* Form actions */
+.form-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
