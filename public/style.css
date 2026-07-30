@@ -1,11 +1,11 @@
-/* General page layout */
+
 body {
   font-family: Arial, sans-serif;
   margin: 20px;
   background-color: #f9f9f9;
 }
 
-/* Header */
+
 header {
   font-size: 24px;
   font-weight: bold;
@@ -13,16 +13,14 @@ header {
   text-align: center;
 }
 
-/* Section titles */
 h2 {
   margin-top: 20px;
   color: #333;
 }
 
-/* Form labels and inputs */
 form label {
-  margin-right: 8px;       /* space between label and input */
-  font-weight: bold;       /* make labels bold */
+  margin-right: 8px;       
+  font-weight: bold;      
 }
 
 form input, form select, form button {
@@ -31,7 +29,7 @@ form input, form select, form button {
   border-radius: 8px;      /* rounded corners */
 }
 
-/* Buttons */
+
 button {
   background-color: #007BFF;
   color: white;
@@ -45,7 +43,7 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* Table */
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -62,46 +60,46 @@ th {
   background-color: #eee;
 }
 
-/* Pagination */
+
 .pagination {
   margin-top: 15px;
   text-align: center;
 }
 
-/* Add section */
+
 .add-container {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
-  justify-content: center;   /* centers horizontally */
+  justify-content: center;  
   align-items: flex-end;
   border: 1px solid #918c8c;
   border-radius: 9px;
   padding: 30px;
-  background-color: #fff;    /* optional: white background */
+  background-color: #fff;   
 }
 
-/* Search section */
+
 .search-container {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
-  justify-content: center;   /* centers horizontally */
+  justify-content: center;   
   align-items: center;
   border: 1px solid #918c8c;
   border-radius: 9px;
   padding: 30px;
-  background-color: #fff;    /* optional: white background */
+  background-color: #fff;    
 }
 
-/* Form groups */
+
 .form-group {
-  display: flex;              /* label + input/select in one row */
+  display: flex;              
   align-items: center;
-  gap: 10px;                  /* space between label and input */
+  gap: 10px;                  
 }
 
-/* Form actions */
+
 .form-actions {
   display: flex;
   gap: 10px;

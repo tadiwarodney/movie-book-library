@@ -1,4 +1,4 @@
-// Import required packages
+
 const express = require("express");
 const mysql = require("mysql2");
 const bodyParser = require("body-parser");
@@ -23,7 +23,7 @@ db.connect((err) => {
     console.error("Database connection failed:", err);
     return;
   }
-  console.log("Connected to MySQL successfully!");
+  console.log("Connected todatabase ");
 });
 
 // Route to add data from form
@@ -40,7 +40,6 @@ app.post("/add", (req, res) => {
   });
 });
 
-// Route to view data WITH pagination + optional search filters
 app.get("/view", (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 5;
@@ -97,7 +96,7 @@ app.get("/view", (req, res) => {
   });
 });
 
-// Route to update a record
+//  update a record
 app.post("/update", (req, res) => {
   const { id, rating } = req.body;
   const sql = "UPDATE library_table SET rating = ? WHERE id = ?";
@@ -111,7 +110,7 @@ app.post("/update", (req, res) => {
   });
 });
 
-// Route to delete a record
+//  delete a record
 app.post("/delete", (req, res) => {
   const { id } = req.body;
   const sql = "DELETE FROM library_table WHERE id = ?";

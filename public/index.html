@@ -3,9 +3,7 @@
 <head>
     <title>Movie/Book Library</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* You can add styling later */
-    </style>
+    
 </head>
 <body>
     <header>MOVIE/BOOK LIBRARY</header>
@@ -106,7 +104,7 @@
         </div>
       </div>
 
-      <!-- Library Section -->
+      
       <div class="form-section">
         <h3>Library</h3>
         <table border="1">
@@ -116,7 +114,7 @@
             <th>Rating</th>
             <th>Type</th>
           </tr>
-          <!-- Rows are now loaded dynamically from the server -->
+       
         </table>
 
         <div style="margin-top: 15px; text-align: center;">
@@ -132,10 +130,10 @@
       const form = document.getElementById("libraryForm");
       const table = document.querySelector("table");
 
-      const rowsPerPage = 5; // rows per page — adjust as needed
+      const rowsPerPage = 5; // rows per page 
       let currentPage = 1;
 
-      // Builds query params from current search fields + page
+      
       function buildParams(page) {
         return new URLSearchParams({
           page,
@@ -147,7 +145,7 @@
         });
       }
 
-      // Fetches a page of results from the server and renders the table
+    
       async function loadPage(page = 1) {
         try {
           const params = buildParams(page);
@@ -162,11 +160,11 @@
           const { data, page: currentP, totalPages } = result;
           currentPage = currentP;
 
-          // Remove all rows except the header row
+          
           const rows = table.querySelectorAll("tr:not(:first-child)");
           rows.forEach(r => r.remove());
 
-          // Insert fresh rows from server data
+          
           data.forEach(item => {
             const newRow = table.insertRow();
             newRow.insertCell(0).textContent = item.title;
@@ -183,7 +181,7 @@
         }
       }
 
-      // Add a new movie/book via fetch (no page reload)
+      // Add a new movie/book 
       form.addEventListener("submit", async function(event) {
         event.preventDefault();
 
@@ -197,15 +195,16 @@
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: new URLSearchParams({ title, genre, rating, item_type: itemType })
-          });
+           
+          } );
 
           if (!res.ok) {
             alert("Error adding data");
             return;
           }
-          alert=("ADDED");
+          
           form.reset();
-          loadPage(1); // refresh table to show the new entry
+          loadPage(1); 
         } catch (err) {
           console.error("Failed to add item:", err);
           alert("Error adding data");
@@ -231,8 +230,6 @@
       document.getElementById("nextBtn").addEventListener("click", function() {
         loadPage(currentPage + 1);
       });
-
-      // Load the first page on startup
       loadPage(1);
     </script>
 </body>
